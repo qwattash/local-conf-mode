@@ -54,7 +54,7 @@ If the cwd is not under version control return nil"
   :group 'local-conf-mode
   (local-conf-load))
 
-(define-globalized-minor-mode global-local-conf-mode ; name of the new mode
+(define-globalized-minor-mode globalized-local-conf-mode ; name of the new mode
   local-conf-mode ; name of the mode that is activated
   (lambda () (local-conf-mode t)) ; mode enable function
   )
