@@ -7,7 +7,7 @@ Other vcs may be supported as well in the future.
 # Installation
 Just enable the mode in your .emacs or wherever you prefer
 ```elisp
-(local-conf-mode)
+(globalized-local-conf-mode)
 ```
 Or enable it from the buffer
 ```
