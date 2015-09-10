@@ -8,7 +8,7 @@ This was primarily designed to add project-related skeletons and templates but m
 # Installation
 Just enable the mode in your .emacs or wherever you prefer
 ```elisp
-(local-conf-mode)
+(globalized-local-conf-mode t)
 ```
 Or enable it from the buffer
 ```
