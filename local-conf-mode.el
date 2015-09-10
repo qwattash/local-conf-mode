@@ -21,22 +21,35 @@
 ;;     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;; 
 
-(defcustom local-conf-mode-file
-  "emacs-local.el"
-  "File loaded from version control root if possible"
+(defcustom local-conf-mode-file-pattern
+  "%s-local"
+  "Format string used to build the name of the local configuration resource
+from the repository name"
   :group 'local-conf-mode)
 
 (defun local-conf-load ()
   "Load local emacs file if any"
   (let ((vc-root (local-conf-get-vc-root)))
+    (message "<local conf mode> VCS root found at %s" vc-root)
     (if (null vc-root)
 	nil
-      (let ((local-file (concat (file-name-as-directory vc-root) local-conf-mode-file)))
-	(if (file-exists-p local-file)
-	    (progn
-	      (message (concat "Loading " local-file))
-	      (load local-file))
-	  nil)))))
+      (let* ((vc-root-dir (file-name-as-directory vc-root))
+	     ;; path root directory of the repository with trailing '/'
+	     (vc-repo-name (file-name-nondirectory (directory-file-name vc-root-dir)))
+	     ;; name of the version control repository
+	     (resource-id (format local-conf-mode-file-pattern vc-repo-name))
+	     ;; id of the resource to 'require
+	     )
+	(add-to-list 'load-path vc-root-dir)
+	(message resource-id)
+	;; (require (make-symbol resource-id))
+	(require (intern resource-id))
+	))))
+	;; (if (file-exists-p local-file)
+	;;     (progn
+	;;       (message "<local conf mode> Loading %s" local-file)
+	;;       (load local-file))
+	;;   nil)))))
 
 ;; currently only support git
 (defun local-conf-get-vc-root ()
