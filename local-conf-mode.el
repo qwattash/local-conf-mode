@@ -40,16 +40,13 @@ from the repository name"
 	     (resource-id (format local-conf-mode-file-pattern vc-repo-name))
 	     ;; id of the resource to 'require
 	     )
-	(add-to-list 'load-path vc-root-dir)
-	(message resource-id)
-	;; (require (make-symbol resource-id))
-	(require (intern resource-id))
-	))))
-	;; (if (file-exists-p local-file)
-	;;     (progn
-	;;       (message "<local conf mode> Loading %s" local-file)
-	;;       (load local-file))
-	;;   nil)))))
+	(if (file-exists-p (concat vc-root-dir resource-id ".el"))
+	    (progn
+	      ;; add repository root to emacs load path and import the feature
+	      (add-to-list 'load-path vc-root-dir)
+	      (message resource-id)
+	      (require (intern resource-id)))
+	  nil)))))
 
 ;; currently only support git
 (defun local-conf-get-vc-root ()
